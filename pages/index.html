@@ -85,6 +85,7 @@
         <table id="data-table">
           <thead>
             <tr>
+              <th>Categoria</th>
               <th>Descrição</th>
               <th>Valor</th>
               <th>Data</th>
@@ -95,6 +96,7 @@
           <tbody>
             {% for transaction in transactions %}
             <tr>
+              <td class="description">{{transaction.category}}</td>
               <td class="description">{{transaction.description}}</td>
               {% if transaction.amount > -1 %}
               <td class="income amount">R$ {{transaction.amount}}</td>
@@ -125,7 +127,7 @@
               <label for="transactions">Escolha uma transação</label>
               <select name="transactions">
                 <option selected="selected" value="1">
-                  -- Nenhuma Transação --
+                  Selecione uma transação
                 </option>
                 {% for transaction in transactions %}
                 <option value="{{transaction.id}}">
@@ -135,6 +137,16 @@
               </select>
             </div>
 
+            <div class="input-group">
+              <label class="sr-only" for="category"> >Nova categoria</label>
+
+              <input
+                type="text"
+                class="category"
+                name="category"
+                placeholder="Nova categoria"
+              />
+            </div>
             <div class="input-group">
               <label class="sr-only" for="description">Nova Descrição</label>
               <input
@@ -182,6 +194,15 @@
         <div class="form">
           <h2>Nova Transação</h2>
           <form method="post">
+            <div class="input-group">
+              <label class="sr-only" for="description">Categoria</label>
+              <input
+                type="text"
+                class="category"
+                name="category"
+                placeholder="Categoria"
+              />
+            </div>
             <div class="input-group">
               <label class="sr-only" for="description">Descrição</label>
               <input

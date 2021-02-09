@@ -50,14 +50,15 @@ app.get("/", (req, res) => {
   });
 
   app.post("/", function (req, res) {
-    let { description, amount, date } = req.body;
+    let { category, description, amount, date } = req.body;
     const reverseDate = date.replace(/-/g, "/").split("/").reverse().join("/");
     const query = `
         INSERT INTO transactions(
+            category,
             description,
             amount,
             date
-        ) VALUES (?,?,?)
+        ) VALUES (?, ?,?,?)
     `;
 
     if (amount <= -1) {
@@ -65,7 +66,7 @@ app.get("/", (req, res) => {
       amount = `- R$ ${formatAmount}`;
     }
 
-    const values = [description, amount, reverseDate];
+    const values = [category, description, amount, reverseDate];
 
     db.run(query, values, function (err) {
       if (err) {
@@ -90,7 +91,7 @@ app.get("/", (req, res) => {
   });
 
   app.post("/edit", (req, res) => {
-    let { transactions, description, amount, date } = req.body;
+    let { transactions, category, description, amount, date } = req.body;
 
     const reverseDate = date.replace(/-/g, "/").split("/").reverse().join("/");
 
@@ -100,7 +101,7 @@ app.get("/", (req, res) => {
     }
 
     let query = `
-    UPDATE transactions SET description="${description}", amount="${amount}", date="${reverseDate}" WHERE id="${transactions}"
+    UPDATE transactions SET category="${category}", description="${description}", amount="${amount}", date="${reverseDate}" WHERE id="${transactions}"
     `;
 
     db.all(query, function (err) {
@@ -108,7 +109,6 @@ app.get("/", (req, res) => {
         console.log(err);
         return res.send("Error in database");
       }
-      console.log(transactions, description, amount, reverseDate);
 
       return res.redirect("/");
     });
