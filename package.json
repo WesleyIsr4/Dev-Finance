@@ -13,7 +13,7 @@
   },
   "name": "dev_finances02",
   "version": "1.0.0",
-  "main": "db.js",
+  "main": "./src/server.js",
   "keywords": [],
   "author": "",
   "license": "ISC",

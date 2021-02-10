@@ -5,7 +5,6 @@ const html = {
   editModal: $(".edit-modal"),
   switchTheme: $(":root"),
 };
-console.log(html.switchTheme);
 
 const assignClass = (elemento, classe) => {
   return elemento.classList.toggle(classe);

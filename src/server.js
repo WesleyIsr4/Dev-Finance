@@ -2,12 +2,14 @@ const express = require("express");
 const nunjucks = require("nunjucks");
 const app = express();
 
-const db = require("./db");
-app.use(express.json());
-app.use(express.static("src"));
+const db = require("./database/db");
+
 app.use(express.urlencoded({ extended: true }));
 
-nunjucks.configure("pages", {
+app.use(express.static("public"));
+app.use(express.json());
+
+nunjucks.configure("src/view", {
   express: app,
   noCache: true,
 });

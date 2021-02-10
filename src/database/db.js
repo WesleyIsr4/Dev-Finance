@@ -1,5 +1,7 @@
-const sqlite3 = require("sqlite3");
-const db = new sqlite3.Database("./devFinances.db");
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database("./database.db");
+
+module.exports = db;
 
 db.serialize(function () {
   db.run(
@@ -13,5 +15,3 @@ db.serialize(function () {
     `
   );
 });
-
-module.exports = db;
