@@ -12,6 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
     />
     <script defer src="./script/index.js"></script>
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
   </head>
 
   <body>
@@ -81,7 +82,7 @@
           <a class="button edit"> Editar transação </a>
         </div>
 
-        <table id="data-table">
+        <table id="data-table" class="sortable">
           <thead>
             <tr>
               <th>Categoria</th>
@@ -237,7 +238,7 @@
 
             <div class="input-group actions">
               <a id="form-button" class="button cancel">Cancelar</a>
-              <button>Salvar</button>
+              <button type="button" id="button">Salvar</button>
             </div>
           </form>
         </div>
