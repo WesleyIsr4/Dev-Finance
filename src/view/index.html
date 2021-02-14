@@ -82,6 +82,12 @@
           <a class="button edit"> Editar transação </a>
         </div>
 
+        <div class="categories">
+          {% for transaction in transactions %}
+          <a class="category-group">{{transaction.category}}</a>
+          {% endfor %}
+        </div>
+
         <table id="data-table" class="sortable">
           <thead>
             <tr>
@@ -164,6 +170,7 @@
                 class="amount"
                 name="amount"
                 placeholder="Novo Valor"
+                value="{{transaction.amount}}"
               />
               <small class="help"
                 >Use o sinal - (negativo) para despesas e , (vírgula) para casas
@@ -238,7 +245,7 @@
 
             <div class="input-group actions">
               <a id="form-button" class="button cancel">Cancelar</a>
-              <button type="button" id="button">Salvar</button>
+              <button>Salvar</button>
             </div>
           </form>
         </div>
