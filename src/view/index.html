@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>dev.finance$</title>
+
+    <link rel="stylesheet" type="text/css" href="./styles/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    />
+    <script defer src="./script/index.js"></script>
+    <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <img
+        class="toggleImg"
+        src="/assets/logo.svg"
+        id="logo"
+        alt="logo dev.finance$"
+      />
+      />
+      <div class="toggle-btn">
+        <i class="fas fa-adjust"></i>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="balance">
+        <h2 class="sr-only">Balanço</h2>
+        <br />
+        <div class="cards">
+          <div class="card">
+            <h3>
+              <span>Entradas</span>
+              <img
+                src="/assets/income.svg"
+                width="22px"
+                height="22px"
+                alt="Imagem de entradas"
+              />
+            </h3>
+            <p>R$ {{income}}</p>
+          </div>
+
+          <div class="card minus">
+            <h3>
+              <span>Saidas</span>
+              <img
+                src="/assets/expense.svg"
+                width="22px"
+                height="22px"
+                alt="Imagem de saidas"
+              />
+            </h3>
+            <p>R$ {{expense}}</p>
+          </div>
+
+          <div class="card total">
+            <h3>
+              <span>Total</span>
+              <img
+                src="/assets/total.svg"
+                width="22px"
+                height="22px"
+                alt="Imagem de total"
+              />
+            </h3>
+            <p>R$ {{total}}</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="transaction">
+        <h2 class="sr-only">Transações</h2>
+        <div class="row">
+          <a class="button new">+ Nova Transação</a>
+          <a class="button edit"> Editar transação </a>
+        </div>
+
+        <table id="data-table" class="sortable">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Data</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for transaction in transactions %}
+            <tr>
+              <td class="description">{{transaction.category}}</td>
+              <td class="description">{{transaction.description}}</td>
+              {% if transaction.amount > -1 %}
+              <td class="income amount">R$ {{transaction.amount}}</td>
+              {% else %}
+              <td class="expense amount">{{transaction.amount}}</td>
+              {% endif %}
+              <td class="date">{{transaction.date}}</td>
+              <td>
+                <form action="/id" method="GET" class="delete-id">
+                  <input type="text" name="id" value="{{transaction.id}}" class="hide">
+                  <button type="submit" class="delete-edit"><img 
+                    src="/assets/minus.svg"
+                    alt="remover transação"
+                  /></button>
+              </form>
+                
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <div class="modal-overlay edit-modal">
+      <div class="modal">
+        <div class="form">
+          <h2>Editar</h2>
+          <form action="/edit" method="POST">
+            <div class="input-group actions">
+              <label for="transactions">Escolha uma transação</label>
+              <select name="transactions">
+                <option selected="selected" value="1">
+                  Selecione uma transação
+                </option>
+                {% for transaction in transactions %}
+                <option value="{{transaction.id}}">
+                  {{transaction.description}}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label class="sr-only" for="category"> >Nova categoria</label>
+
+              <input
+                type="text"
+                class="category"
+                name="category"
+                placeholder="Nova categoria"
+                required
+                />
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="description">Nova Descrição</label>
+              <input
+                type="text"
+                class="description"
+                name="description"
+                placeholder="Nova Descrição"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="amount">Novo Valor</label>
+              <input
+                type="number"
+                step="0.01"
+                class="amount"
+                name="amount"
+                placeholder="Novo Valor"
+                required
+              />
+              <small class="help"
+                >Use o sinal - (negativo) para despesas e , (vírgula) para casas
+                decimais</small
+              >
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="date">Nova Data</label>
+              <input
+                type="date"
+                class="date"
+                name="date"
+                placeholder="01/01/2021"
+                required
+              />
+            </div>
+
+            <div class="input-group actions">
+              <a id="edit-button" class="button cancel">Cancelar</a>
+              <button>Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay form-modal">
+      <div class="modal">
+        <div class="form">
+          <h2>Nova Transação</h2>
+          <form method="post" >
+            <div class="input-group">
+              <label class="sr-only" for="description">Categoria</label>
+              <input
+                type="text"
+                class="category"
+                name="category"
+                placeholder="Categoria"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="description">Descrição</label>
+              <input
+                type="text"
+                class="description"
+                name="description"
+                placeholder="Descrição"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="amount">Valor</label>
+              <input
+                type="number"
+                step="0.01"
+                class="amount"
+                name="amount"
+                placeholder="Valor"
+                required
+              />
+              <small class="help"
+                >Use o sinal - (negativo) para despesas e , (vírgula) para casas
+                decimais</small
+              >
+            </div>
+            <div class="input-group">
+              <label class="sr-only" for="date">Data</label>
+              <input
+                type="date"
+                class="date"
+                name="date"
+                placeholder="01/01/2021"
+                required
+              />
+            </div>
+
+            <div class="message-form"></div>
+
+            <div class="input-group actions">
+              <a id="form-button" class="button cancel">Cancelar</a>
+              <button>Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <footer class="container">
+      <p>dev.finance$</p>
+    </footer>
+  </body>
+</html>
