@@ -28,11 +28,10 @@
 
 - [X] layout
 - [X] CRUD da transação
-- [X] salvar e ler dados do banco de dados
-- [ ] Notificação 
-    - [ ] criar notificação
 - [X] adicionar categorias
-- [ ] ordenar tabela de acordo com coluna x
+- [X] Editar Transação e Categorias
+- [X] salvar e ler dados do banco de dados
+- [X] ordenar tabela de acordo com coluna x
 
 
 
